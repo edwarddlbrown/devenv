@@ -1,0 +1,29 @@
+This is designed to help config the dev env for the following: 
+  vim (neovim)
+  bash
+  readline
+
+It also provides some general guidance for setting up fresh machines 
+
+
+The following files need to be symlinked:
+  .bashrc
+  .inputrc
+  .vimrc (or specific variant)
+
+This can be achieved in linux by running the following 
+  ln -s ~/devenv/vimrc ~/.vimrc
+  ln -s ~/devenv/vimrc ~/.config/nvim/init.vim (for neovim
+  ln -s ~/devenv/inputrc ~/.inputrc
+  ln -s ~/devenv/bashrc ~/.bashrc 
+
+
+Additionally, another file (nt.sh), not tracked on git will need to be manually transfered and put in the home dir
+
+Vim also relies on there being an environment variable that points to the symlink for .vimrc
+
+For vim Plugin support, plugged also needs to be installed: https://github.com/junegunn/vim-plug
+* For neovim in linux:
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+ 
