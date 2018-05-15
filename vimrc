@@ -1,3 +1,15 @@
+call plug#begin('~/.vim/plugged')
+Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+Plug 'tpope/vim-fugitive'
+"Plug 'https://github.com/vim-scripts/dbext.vim.git'
+Plug 'https://github.com/scrooloose/nerdtree.git'
+Plug 'https://github.com/jgdavey/tslime.vim.git'
+Plug 'jalvesaq/Nvim-R'
+call plug#end()
+"""""Rplugin stuff""""""""'
+""" resource:
+"https://medium.freecodecamp.org/turning-vim-into-an-r-ide-cd9602e8c217
+"
 filetype plugin indent on
 " show existing tab with 2 spaces width
 set tabstop=2
@@ -5,15 +17,16 @@ set tabstop=2
 set shiftwidth=2
 " On pressing tab, insert 2 spaces
 set expandtab
-let mapleader = " "
-
 set numberwidth=2
 
-nnoremap <leader>ve :split $MYVIMRC<cr>
-nnoremap <leader>vs :source $MYVIMRC<cr>
+let mapleader = " "
+let maplocalleader = " "
+
+nnoremap <localleader>ve :split $MYVIMRC<cr>
+nnoremap <localleader>vs :source $MYVIMRC<cr>
+nnoremap <localleader>vl yy:<c-r>0<del><cr>
 
 "source line(not sure if this works)
-nnoremap <leader>sl yy:<c-r>0<del><cr>
 "insert curent date
 nnoremap <F5> "=strftime("%c")<CR>P
 
@@ -45,22 +58,41 @@ if has("idea")
   nnoremap <leader>sg :action DatabaseView.SqlGenerator<CR>
 endif
 
+onoremap ih :<c-u>execute "normal! ?^==\\+$\r:nohlsearch\rkvg_"<cr>
+"Notes for above command:
+  "Need to use execute b/c it can handle special chars more easily
+  "Normal runs the next set of chars as if they are in normal mode. Bang,
+    "don't get yet
+    "also don't get the <c-u> yet
+  "?^==\+$  backwards search for any lines with two or more equal signs and
+    "nothing else
+  ":nohlsearch clears search highlighting, i usually just use :noh kvg_  up, visual, last non blank char ($ would get endlines too) 
+"neovim stuff
+if has('nvim')
+    tnoremap jk <C-\><C-n>
+endif
 
 
-call plug#begin('~/.vim/plugged')
-" Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
-" call plug#begin('~/.vim/plugged')
-"
-" " Make sure you use single quotes
-"
-" " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-" Plug 'junegunn/vim-easy-align'
-" Install plugins by running PlugInstall
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-Plug 'tpope/vim-fugitive'
-"Plug 'https://github.com/vim-scripts/dbext.vim.git'
-Plug 'https://github.com/scrooloose/nerdtree.git'
-call plug#end()
+""specific file settings
+"javascript
+autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
+autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>j
+"autocmd FileType vim vnoremap <buffer> <localleader>c I"<esc>
+autocmd FileType sql nnoremap <buffer> <localleader>c I--<esc>
+
+let g:dbext_default_profile_psql = 'type=PGSQL:host=pgicam-prod-db.umms.med.umich.edu:port=5432:dbname=sahmdb:user=mluser'
+let g:dbext_default_profile = 'psql'
+let g:tslime_always_current_session = 1 
+let g:tslime_always_current_window = 1
+
+"vnoremap <C-c><C-c> <Plug>SendSelectionToTmux
+"nnoremap <C-c><C-c> <Plug>NormalModeSendToTmux
+"nnoremap <C-c>r <Plug>SetTmuxVars
+
+
+
 let g:dbext_default_profile_psql = 'type=PGSQL:host=pgicam-prod-db.umms.med.umich.edu:port=5433:dbname=sahmdb:user=mluser'
 let g:dbext_default_profile = 'psql'
 
