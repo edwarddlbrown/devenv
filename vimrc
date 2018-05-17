@@ -5,11 +5,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'https://github.com/scrooloose/nerdtree.git'
 Plug 'https://github.com/jgdavey/tslime.vim.git'
 Plug 'jalvesaq/Nvim-R'
+Plug 'lazywei/vim-matlab'
+
 call plug#end()
 """""Rplugin stuff""""""""'
 """ resource:
 "https://medium.freecodecamp.org/turning-vim-into-an-r-ide-cd9602e8c217
 "
+syntax on
 filetype plugin indent on
 " show existing tab with 2 spaces width
 set tabstop=2
@@ -34,8 +37,6 @@ nnoremap <F5> "=strftime("%c")<CR>P
 """"""""Nerd tree stuff"""""""
 "Map nt
 nnoremap <leader>nt :NERDTreeToggle<CR>
-"this is really weird, but it's required to be able to open subdirectories in
-"userfolders
 let g:NERDTreeDirArrows=0
 
 """"""""copy paste"""""""
@@ -44,7 +45,10 @@ nnoremap <leader>pp "+p
 nnoremap <leader>pP "+P
 "system copy
 vnoremap <leader>y "+y
-nnoremap <leader>Y "+Y
+nnoremap <leader>y "+Y
+nnoremap <leader>Y :%y+<CR>
+
+nnoremap y "+Y
 
 
 """"""""<esc> remap area""""""
